@@ -1,0 +1,22 @@
+SQL
+
+INSERT INTO produtos (cod_prod, loj_prod, desc_prod, dt_inclu_prod, preco_prod) VALUES (170, 2,'LEITE CONDENSADO MOCOCA', '2010-12-30', 45.40);
+UPDATE produtos SET preco_prod = 95.40 WHERE cod_prod = 170 AND loj_prod = 2;
+SELECT * FROM produtos WHERE loj_prod IN (1, 2);
+SELECT MAX(p.dt_inclu_prod) AS 'Maior data de inclusão', MIN(p.dt_inclu_prod) AS 'Menor data de inclusão' FROM produtos p;
+SELECT COUNT(*) FROM produtos;
+SELECT * FROM produtos p WHERE p.desc_prod LIKE 'l%';
+SELECT SUM(p.preco_prod) AS 'TOTAL', p.loj_prod AS 'LOJA' FROM produtos p GROUP BY p.loj_prod;
+SELECT SUM(p.preco_prod) AS 'TOTAL', p.loj_prod AS 'LOJA' FROM produtos p WHERE p.preco_prod > 100 GROUP BY p.loj_prod;
+SELECT 
+	l.loj_prod AS 'Cód. Loja', 
+	l.desc_loja AS 'Desc. Loja', 
+	p.cod_prod AS 'Cód. Produto', 
+	p.desc_prod AS 'Desc. Produto', 
+	p.preco_prod AS 'Preço Prod.', 
+	e.qtd_prod AS 'Qtd. Est.' 
+FROM lojas l 
+INNER JOIN produtos p ON (l.loj_prod = p.loj_prod)
+INNER JOIN estoque e ON (l.loj_prod = e.loj_prod)
+WHERE l.loj_prod = 1;
+SELECT * FROM estoque e WHERE e.cod_prod NOT IN (SELECT p.cod_prod FROM produtos p);
